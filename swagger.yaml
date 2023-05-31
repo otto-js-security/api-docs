@@ -44,35 +44,6 @@ paths:
       summary: 'Get a list of site_ids that can be used in later API requests to query data specific to that site.'
       tags:
         - Site
-  /api/v2/accounts/{account_id}/sites/{site_id}:
-    get:
-      security: 
-        - { Bearer: [
-            ]
-          }
-      description: Get details for a specific site.
-      operationId: DevconServicesApiWeb.SiteController.show
-      parameters:         
-        - in: path
-          name: account_id
-          required: true
-          type: string
-        - in: path
-          name: site_id
-          required: true
-          type: string
-      produces:
-        - application/json
-      responses:
-        '200':
-          description: Success
-        '403':
-          description: Not Authorized
-        '404':
-          description: Not Found
-      summary: 'Get info related to a specific site_id.'
-      tags:
-        - Site
   /api/v2/accounts/{account_id}/sites/{site_id}/files:
     get:
       security: 
