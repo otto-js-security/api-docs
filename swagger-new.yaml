@@ -3,7 +3,7 @@ consumes:
 definitions: {}
 info:
   description: API Documentation for ottoAPI v1
-  termsOfService: Terms of Service for OttoJS API docs
+  termsOfService: https://www.otto-js.com/terms
   title: otto API
   version: '2.0'
   license: 
