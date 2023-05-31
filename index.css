@@ -15,5 +15,8 @@ body {
     background: #fafafa;
 }
 .title {
-    color: #1da1f2
+    color: #1da1f2 !important
+}
+.swagger-ui .topbar {
+    display: none !important
 }
