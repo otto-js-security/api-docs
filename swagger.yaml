@@ -206,7 +206,7 @@ paths:
         - { Bearer: [
             ]
           }
-      description: Get a Listing of any scripts under site {site_id} whose behavior has changed and could potentially be a security threat.
+      description: Get a listing of any scripts under site {site_id} whose behavior has changed and could potentially be a security threat.
       operationId: DevconServicesApiWeb.BehaviorController.need_review
       parameters: 
         - in: path
@@ -224,7 +224,7 @@ paths:
           description: Not Authorized
         '404':
           description: Not Found
-      summary: Get a Listing of any scripts under site {site_id} whose behavior has changed and could potentially be a security threat.
+      summary: Get a listing of any scripts under site {site_id} whose behavior has changed and could potentially be a security threat.
       tags:
         - Behavior
   /api/v2/accounts/{account_id}/sites/{site_id}/behaviors/mark_as_reviewed/{behavior_id}:
