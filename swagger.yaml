@@ -9,6 +9,16 @@ info:
   license: 
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
+tags: [
+  - name: Site
+    description: "This endpoint retrieves details about all sites added to otto"
+  - name: File
+    description: "This endpoint retrieves details about all file vulnerabilities detected by otto"
+  - name: Behavior
+    description: "This endpoint retrieves details about all changes to script behaviors detected by otto"
+  - name: Incident
+    description: "This endpoint retrieves details about all incidents that require attention detected by otto"
+]
 paths:
   /api/v2/accounts/{account_id}/sites:
     get:
