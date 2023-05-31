@@ -11,13 +11,13 @@ info:
     url: http://www.apache.org/licenses/LICENSE-2.0.html
 tags: 
   - name: Site
-    description: "This endpoint retrieves details about all sites added to otto."
+    description: "This endpoint retrieves details about all sites added to otto-js."
   - name: File
-    description: "This endpoint retrieves details about all file vulnerabilities detected by otto."
+    description: "This endpoint retrieves details about all file vulnerabilities detected by otto-js."
   - name: Behavior
-    description: "This endpoint retrieves details about all changes to script behaviors detected by otto."
+    description: "This endpoint retrieves details about all changes to script behaviors detected by otto-js."
   - name: Incident
-    description: "This endpoint retrieves details about all incidents that require attention detected by otto."
+    description: "This endpoint retrieves details about all incidents that require attention detected by otto-js."
 paths:
   /api/v2/accounts/{account_id}/sites:
     get:
