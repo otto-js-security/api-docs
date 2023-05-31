@@ -191,6 +191,95 @@ paths:
       summary: "Get an incident's details"
       tags:
         - Incident
+  /api/v2/accounts/{account_id}/sites/{site_id}/behaviors/need_review:
+    get:
+      security: 
+        - { Bearer: [
+            ]
+          }
+      description: Get a Listing of any scripts under site {site_id} whose behavior has changed and could potentially be a security threat.
+      operationId: DevconServicesApiWeb.BehaviorController.need_review
+      parameters: 
+        - in: path
+          name: account_id
+          required: true
+          type: string
+        - in: path
+          name: site_id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Success
+        '403':
+          description: Not Authorized
+        '404':
+          description: Not Found
+      summary: "Get a listing of behaviors of a site that need review"
+      tags:
+        - Behavior
+  /api/v2/accounts/{account_id}/sites/{site_id}/behaviors/mark_as_reviewed/{behavior_id}:
+    put:
+      security: 
+        - { Bearer: [
+            ]
+          }
+      description: Mark a behavior that needed to be reviewed as having been reviewed.
+      operationId: DevconServicesApiWeb.BehaviorController.mark_as_reviewed
+      parameters: 
+        - in: path
+          name: account_id
+          required: true
+          type: string
+        - in: path
+          name: site_id
+          required: true
+          type: string
+        - in: path
+          name: behavior_id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Success
+        '403':
+          description: Not Authorized
+        '404':
+          description: Not Found
+      summary: "Mark a behavior that needed review as having been reviewed"
+      tags:
+        - Behavior
+  /api/v2/accounts/{account_id}/sites/{site_id}/behaviors/{behavior_id}:
+    get:
+      security: 
+        - { Bearer: [
+            ]
+          }
+      description: Get details on a certain behavior belonging to a site {site_id}
+      operationId: DevconServicesApiWeb.BehaviorController.show
+      parameters: 
+        - in: path
+          name: account_id
+          required: true
+          type: string
+        - in: path
+          name: site_id
+          required: true
+          type: string
+        - in: path
+          name: behavior_id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Success
+        '403':
+          description: Not Authorized
+        '404':
+          description: Not Found
+      summary: "Get details on a certain behavior recorded on a site."
+      tags:
+        - Behavior
 produces:
   - application/json
 host: api.devconops.com
