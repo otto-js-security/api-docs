@@ -1,0 +1,208 @@
+consumes:
+  - application/json
+definitions: {}
+info:
+  description: API Documentation for ottoAPI v1
+  termsOfService: Open for public
+  title: otto API
+  version: '2.0'
+  license: 
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+paths:
+  /api/v2/accounts/{account_id}/sites:
+    get:
+      security: 
+        - { Bearer: [
+            ]
+          }
+      description: Get a list of all sites in the account
+      operationId: DevconServicesApiWeb.SiteController.index
+      parameters:
+        - in: path
+          name: account_id
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Success
+        '403':
+          description: Not Authorized
+        '404':
+          description: Not Found
+      summary: 'Get a list of site_ids that can be used in later API requests to query data specific to that site.'
+      tags:
+        - Site
+  /api/v2/accounts/{account_id}/sites/{site_id}:
+    get:
+      security: 
+        - { Bearer: [
+            ]
+          }
+      description: Get details for a specific site
+      operationId: DevconServicesApiWeb.SiteController.show
+      parameters:         
+        - in: path
+          name: account_id
+          required: true
+          type: string
+        - in: path
+          name: site_id
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Success
+        '403':
+          description: Not Authorized
+        '404':
+          description: Not Found
+      summary: 'Get info related to a specific site_id.'
+      tags:
+        - Site
+  /api/v2/accounts/{account_id}/sites/{site_id}/files:
+    get:
+      security: 
+        - { Bearer: [
+            ]
+          }
+      description: Get a list of all javascipt files with vulnerabilties
+      operationId: DevconServicesApiWeb.FileController.index
+      parameters:
+        - in: path
+          name: account_id
+          required: true
+          type: string
+        - in: path
+          name: site_id
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Success
+        '403':
+          description: Not Authorized
+        '404':
+          description: Not Found
+      summary: 'Get a list of all javascript vulnerabilties'
+      tags:
+        - File
+  /api/v2/accounts/{account_id}/sites/{site_id}/files/{file_id}:
+    get:
+      security: 
+        - { Bearer: [
+            ]
+          }
+      description: Get a File's vulnerability details
+      operationId: DevconServicesApiWeb.FileController.show
+      parameters: 
+        - in: path
+          name: account_id
+          required: true
+          type: string
+        - in: path
+          name: site_id
+          required: true
+          type: string
+        - in: path
+          name: file_id
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Success
+        '403':
+          description: Not Authorized
+        '404':
+          description: Not Found
+      summary: "Gel a File's vulnerability details."
+      tags:
+        - File
+  /api/v2/accounts/{account_id}/sites/{site_id}/incidents:
+    get:
+      security: 
+        - { Bearer: [
+            ]
+          }
+      description: Get a list of action required incidents
+      operationId: DevconServicesApiWeb.IncidentController.index
+      parameters: 
+        - in: path
+          name: account_id
+          required: true
+          type: string
+        - in: path
+          name: site_id
+          required: true
+          type: string
+        - in: query
+          name: mode
+          required: true
+          type: string
+          default: review
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Success
+        '403':
+          description: Not Authorized
+        '404':
+          description: Not Found
+      summary: 'Get a list of action required incidents'
+      tags:
+        - Incident
+  /api/v2/accounts/{account_id}/sites/{site_id}/incidents/{incident_id}:
+    get:
+      security: 
+        - { Bearer: [
+            ]
+          }
+      description: Get an incident's details
+      operationId: DevconServicesApiWeb.IncidentController.show
+      parameters: 
+        - in: path
+          name: account_id
+          required: true
+          type: string
+        - in: path
+          name: site_id
+          required: true
+          type: string
+        - in: path
+          name: incident_id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Success
+        '403':
+          description: Not Authorized
+        '404':
+          description: Not Found
+      summary: "Get an incident's details"
+      tags:
+        - Incident
+produces:
+  - application/json
+host: api.devconops.com
+schemes:
+  - https
+securityDefinitions:
+  Bearer:
+    description: 'API Token must be provided via `Authorization: Bearer ` header'
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: '2.0'
+tags:
+  - description: Incident resources
+    name: Incidents
