@@ -44,7 +44,6 @@ paths:
       summary: 'Get a list of site_ids that can be used in later API requests to query data specific to that site.'
       tags:
         - Site
-  /api/v2/accounts/{account_id}/sites:
     post:
       security: 
         - { Bearer: [
