@@ -65,7 +65,8 @@ paths:
             required:
               - url
             properties:
-              url: string
+              url: 
+                type: string
       produces:
         - application/json
       responses:
