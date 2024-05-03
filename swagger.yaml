@@ -44,6 +44,41 @@ paths:
       summary: 'Get a list of site_ids that can be used in later API requests to query data specific to that site.'
       tags:
         - Site
+  /api/v2/accounts/{account_id}/sites:
+    post:
+      security: 
+        - { Bearer: [
+            ]
+          }
+      description: Get a list of all sites in the account.
+      operationId: DevconServicesApiWeb.SiteController.index
+      parameters:
+        - in: path
+          name: account_id
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: 'Site Settings'
+          required: true
+          schema: 
+            type: object
+            required:
+              - url
+            properties:
+              url: string
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Success
+        '403':
+          description: Not Authorized
+        '404':
+          description: Not Found
+      summary: 'Get a list of site_ids that can be used in later API requests to query data specific to that site.'
+      tags:
+        - Site
   /api/v2/accounts/{account_id}/sites/{site_id}:
     get:
       security: 
