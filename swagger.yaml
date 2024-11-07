@@ -235,6 +235,53 @@ paths:
       summary: "Get an incident's details."
       tags:
         - Incident
+  /api/v2/accounts/{account_id}/sites/{site_id}/aggregate_incidents:
+    get:
+      security: 
+        - { Bearer: [
+            ]
+          }
+      description: 'Get a list of Action Required incidents. Must supply mode and incident type in the query string.
+        - "mode" param can be one of the followin:
+            - "quarantine": all blocked events
+            - "review": high risk items that need review
+            - "monitoring": all items being monitored by otto in the last 24 hours
+            - "all": Archive of all events
+        - "incident_type" param can be one of the following:
+          - "all": Show all incidents
+            '
+      operationId: DevconServicesApiWeb.IncidentController.index
+      parameters: 
+        - in: path
+          name: account_id
+          required: true
+          type: string
+        - in: path
+          name: site_id
+          required: true
+          type: string
+        - in: query
+          name: mode
+          required: true
+          type: string
+          default: quarantine
+        - in: query
+          name: incident_type
+          required: true
+          type: string
+          default: all
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Success
+        '403':
+          description: Not Authorized
+        '404':
+          description: Not Found
+      summary: 'Get a list of Action Required incidents.'
+      tags:
+        - Incident
   /api/v2/accounts/{account_id}/sites/{site_id}/behaviors/need_review:
     get:
       security: 
