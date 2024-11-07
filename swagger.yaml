@@ -181,7 +181,7 @@ paths:
         **mode** param can be one of the following:
           * **quarantine**: all blocked events
           * **review**: high risk items that need review
-          * **monitoring**: all items being monitored by otto in the last 24 hours
+          * **new**: All events in the last 24 hours
           * **all**: Archive of all events
       operationId: DevconServicesApiWeb.IncidentController.index
       parameters: 
@@ -252,8 +252,8 @@ paths:
         * **mode** param can be one of the following:
           * **quarantine**: all blocked events
           * **review**: high risk items that need review
-          * **monitoring**: all items being monitored by otto in the last 24 hours
           * **all**: Archive of all events
+          * **new**: All events in the last 24 hours
         * **incident_type** param can be one of the following:
           * **all**: Show all incidents
           * **file**: Show all js files with vulnerabilities
