@@ -176,7 +176,13 @@ paths:
         - { Bearer: [
             ]
           }
-      description: Get a list of Action Required incidents.
+      description: |
+        Get a list of Action Required incidents.
+        **mode** param can be one of the following:
+          * **quarantine**: all blocked events
+          * **review**: high risk items that need review
+          * **monitoring**: all items being monitored by otto in the last 24 hours
+          * **all**: Archive of all events
       operationId: DevconServicesApiWeb.IncidentController.index
       parameters: 
         - in: path
@@ -241,15 +247,19 @@ paths:
         - { Bearer: [
             ]
           }
-      description: 'Get a list of Action Required incidents. Must supply mode and incident type in the query string.
-        - "mode" param can be one of the followin:
-            - "quarantine": all blocked events
-            - "review": high risk items that need review
-            - "monitoring": all items being monitored by otto in the last 24 hours
-            - "all": Archive of all events
-        - "incident_type" param can be one of the following:
-          - "all": Show all incidents
-            '
+      description: |
+        Get a list of Action Required incidents. Must supply **mode** and **incident_type** in the query string.
+        * **mode** param can be one of the following:
+          * **quarantine**: all blocked events
+          * **review**: high risk items that need review
+          * **monitoring**: all items being monitored by otto in the last 24 hours
+          * **all**: Archive of all events
+        * **incident_type** param can be one of the following:
+          * **all**: Show all incidents
+          * **file**: Show all js files with vulnerabilities
+          * **network_requests**: Shows only network requests
+          * **policy_violations**: All Script Policy Violations
+          * **violations**: All Content Security Policy Violations
       operationId: DevconServicesApiWeb.IncidentController.index
       parameters: 
         - in: path
