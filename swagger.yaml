@@ -46,7 +46,7 @@ paths:
       security:
         - { Bearer: [] }
       description: Add a site to the account.
-      operationId: DevconServicesApiWeb.SiteController.index
+      operationId: DevconServicesApiWeb.SiteController.create
       parameters:
         - in: path
           name: account_id
@@ -58,11 +58,12 @@ paths:
           required: true
           schema:
             type: object
-            required:
-              - url
             properties:
-              url:
-                type: string
+              site:
+                type: object
+                properties:
+                  url:
+                    type: string
       produces:
         - application/json
       responses:
@@ -75,6 +76,7 @@ paths:
       summary: "Get a list of site_ids that can be used in later API requests to query data specific to that site."
       tags:
         - Site
+
   /api/v2/accounts/{account_id}/sites/{site_id}:
     get:
       security:
@@ -126,6 +128,7 @@ paths:
       summary: "Get a list of groups for the account"
       tags:
         - Users
+
   /api/v2/accounts/{account_id}/users/{user_id}:
     get:
       security:
@@ -153,7 +156,7 @@ paths:
       summary: "Get user by id"
       tags:
         - Users
-    update:
+    put:
       security:
         - { Bearer: [] }
       description: Update user info by id.
@@ -278,7 +281,7 @@ paths:
         - Groups
 
   /api/v2/accounts/{account_id}/groups/{group_id}:
-    update:
+    put:
       security:
         - { Bearer: [] }
       description: Update a Group Name.
@@ -378,7 +381,7 @@ paths:
       security:
         - { Bearer: [] }
       description: Delete a site from the group.
-      operationId: DevconServicesApiWeb.GroupController.remote_site
+      operationId: DevconServicesApiWeb.GroupController.remove_site
       parameters:
         - in: path
           name: account_id
