@@ -273,7 +273,7 @@ paths:
           description: Not Authorized
         "404":
           description: Not Found
-      summary: "Get a list of groups for the account"
+      summary: "Add group to the account"
       tags:
         - Groups
 
