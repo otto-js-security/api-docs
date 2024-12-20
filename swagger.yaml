@@ -946,7 +946,7 @@ paths:
       security:
         - { Bearer: [] }
       description: Enable or Disable the firewall
-      operationId: DevconServicesApiWeb.PolicyController.create_pii_policy
+      operationId: DevconServicesApiWeb.PolicyController.enable_policy
       parameters:
         - in: path
           name: account_id
@@ -1129,7 +1129,7 @@ paths:
       security:
         - { Bearer: [] }
       description: Add a script attestation for to the PCI Report. 
-      operationId: DevconServicesApiWeb.PciReportController.create
+      operationId: DevconServicesApiWeb.ScriptAttestationController.create
       parameters:
         - in: path
           name: account_id
