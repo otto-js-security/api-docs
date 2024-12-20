@@ -12,12 +12,20 @@ info:
 tags:
   - name: Site
     description: "This endpoint retrieves details about all sites added to otto-js."
-  - name: File
+  - name: Vulnerabilities
     description: "This endpoint retrieves details about all file vulnerabilities detected by otto-js."
   - name: Behavior
     description: "This endpoint retrieves details about all changes to script behaviors detected by otto-js."
   - name: Incident
-    description: "This endpoint retrieves details about all incidents that require attention detected by otto-js."
+    description: "This endpoint retrieves details about incidents detected by otto-js. These can be firewall violations, script violations, and blocked malware."
+  - name: Users
+    description: "This endpoint retrieves details about users for the account"
+  - name: Groups
+    description: "This endpoint allows you to create groupings of sites and control which users are able to view those sites. A Group could be different companies you manage or different user access roles."
+  - name: Browser Firewall
+    description: "This endpoint allows you manage browser firewall rules like deny all scripts access to password, or allow a subset of scripts to read pii"
+  - name: PCI Reports 
+    description: "This endpoint allows you manage Script Attestation reports to maintain PCI V4 compliance"
 paths:
   /api/v2/accounts/{account_id}/sites:
     get:
@@ -73,7 +81,7 @@ paths:
           description: Not Authorized
         "404":
           description: Not Found
-      summary: "Get a list of site_ids that can be used in later API requests to query data specific to that site."
+      summary: "Create a new site"
       tags:
         - Site
 
@@ -496,7 +504,7 @@ paths:
           description: Not Found
       summary: "Get a list of all JavaScript vulnerabilties."
       tags:
-        - File
+        - Vulnerabilities
   /api/v2/accounts/{account_id}/sites/{site_id}/files/{file_id}:
     get:
       security:
@@ -527,7 +535,7 @@ paths:
           description: Not Found
       summary: "Get a file's vulnerability details."
       tags:
-        - File
+        - Vulnerabilities
   /api/v2/accounts/{account_id}/sites/{site_id}/incidents:
     get:
       security:
@@ -727,6 +735,522 @@ paths:
       summary: "Get details on a certain behavior recorded on a site."
       tags:
         - Behavior
+  /api/v2/accounts/{account_id}/sites/{site_id}/policies:
+    get:
+      security:
+        - { Bearer: [] }
+      description: Get Browser Firewall Policies for {site_id}.
+      operationId: DevconServicesApiWeb.PolicyController.index
+      parameters:
+        - in: path
+          name: account_id
+          required: true
+          type: string
+        - in: path
+          name: site_id
+          required: true
+          type: string
+        - in: path
+          name: behavior_id
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+        "403":
+          description: Not Authorized
+        "404":
+          description: Not Found
+      summary: "Get all browser firewall policies"
+      tags:
+        - Browser Firewall
+  /api/v2/accounts/{account_id}/sites/{site_id}/policies/{policy_id}:
+    get:
+      security:
+        - { Bearer: [] }
+      description: Get Browser Firewall Policy for {site_id} and {policy_id}.
+      operationId: DevconServicesApiWeb.PolicyController.show
+      parameters:
+        - in: path
+          name: account_id
+          required: true
+          type: string
+        - in: path
+          name: site_id
+          required: true
+          type: string
+        - in: path
+          name: policy_id
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+        "403":
+          description: Not Authorized
+        "404":
+          description: Not Found
+      summary: "Get details for a browser firewall policy"
+      tags:
+        - Browser Firewall
+    put:
+      security:
+        - { Bearer: [] }
+      description: Update a browser firewall policy for {site_id} and {policy_id} and/or create a custom policy.
+      operationId: DevconServicesApiWeb.PolicyController.update
+      parameters:
+        - in: path
+          name: account_id
+          required: true
+          type: string
+        - in: path
+          name: site_id
+          required: true
+          type: string
+        - in: path
+          name: policy_id
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: "Policy to Update"
+          required: true
+          schema:
+            type: object
+            properties:
+              policy:
+                type: object
+                properties:
+                  site_id:
+                    type: string
+                  active:
+                    type: boolean
+                  policy:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        action:
+                          type: string
+                        resource:
+                          type: object
+                          properties:
+                            params:
+                              type: array
+                              items:
+                                type: string
+                            type:
+                              type: string
+                        script:
+                          type: string
+
+      responses:
+        "200":
+          description: Success
+        "403":
+          description: Not Authorized
+        "404":
+          description: Not Found
+      summary: Update a browser firewall policy for {site_id} and {policy_id} and/or create a custom policy.
+      tags:
+        - Browser Firewall
+  /api/v2/accounts/{account_id}/sites/{site_id}/policies/{policy_id}/firewall_all:
+    put:
+      security:
+        - { Bearer: [] }
+      description: Create a Browser Firewall Policy to prevent all scripts from reading any inputs
+      operationId: DevconServicesApiWeb.PolicyController.create_all_policy
+      parameters:
+        - in: path
+          name: account_id
+          required: true
+          type: string
+        - in: path
+          name: site_id
+          required: true
+          type: string
+        - in: path
+          name: policy_id
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+        "403":
+          description: Not Authorized
+        "404":
+          description: Not Found
+      summary: Create a Browser Firewall Policy to prevent all scripts from reading any inputs
+      tags:
+        - Browser Firewall
+  /api/v2/accounts/{account_id}/sites/{site_id}/policies/{policy_id}/firewall_ccn:
+    put:
+      security:
+        - { Bearer: [] }
+      description: Create a Browser Firewall Policy to prevent all scripts from reading any financial inputs like credit card numbers
+      operationId: DevconServicesApiWeb.PolicyController.create_credit_card_policy
+      parameters:
+        - in: path
+          name: account_id
+          required: true
+          type: string
+        - in: path
+          name: site_id
+          required: true
+          type: string
+        - in: path
+          name: policy_id
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+        "403":
+          description: Not Authorized
+        "404":
+          description: Not Found
+      summary: Create a Browser Firewall Policy to prevent all scripts from reading any financial inputs like credit card numbers
+      tags:
+        - Browser Firewall
+  /api/v2/accounts/{account_id}/sites/{site_id}/policies/{policy_id}/firewall_pii:
+    put:
+      security:
+        - { Bearer: [] }
+      description: Create a Browser Firewall Policy to prevent all scripts from reading credentials and other pii data
+      operationId: DevconServicesApiWeb.PolicyController.create_pii_policy
+      parameters:
+        - in: path
+          name: account_id
+          required: true
+          type: string
+        - in: path
+          name: site_id
+          required: true
+          type: string
+        - in: path
+          name: policy_id
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+        "403":
+          description: Not Authorized
+        "404":
+          description: Not Found
+      summary: Create a Browser Firewall Policy to prevent all scripts from reading credentials and other pii data
+      tags:
+        - Browser Firewall
+  /api/v2/accounts/{account_id}/sites/{site_id}/policies/{policy_id}/enable/{enable}:
+    put:
+      security:
+        - { Bearer: [] }
+      description: Enable or Disable the firewall
+      operationId: DevconServicesApiWeb.PolicyController.create_pii_policy
+      parameters:
+        - in: path
+          name: account_id
+          required: true
+          type: string
+        - in: path
+          name: site_id
+          required: true
+          type: string
+        - in: path
+          name: policy_id
+          required: true
+          type: string
+        - in: path
+          name: enable
+          required: true
+          type: boolean
+      responses:
+        "200":
+          description: Success
+        "403":
+          description: Not Authorized
+        "404":
+          description: Not Found
+      summary: Enable or Disable the firewall
+      tags:
+        - Browser Firewall
+  /api/v2/accounts/{account_id}/sites/{site_id}/pci_reports:
+    get:
+      security:
+        - { Bearer: [] }
+      description: Get all PCI Attestation Reports for a site id. Includes completed and incomplete reports. 
+      operationId: DevconServicesApiWeb.PciReportController.index
+      parameters:
+        - in: path
+          name: account_id
+          required: true
+          type: string
+        - in: path
+          name: site_id
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+        "403":
+          description: Not Authorized
+        "404":
+          description: Not Found
+      summary: Get all PCI Attestation Reports for a site id. Includes completed and incomplete reports. 
+      tags:
+        - PCI Reports
+    post:
+      security:
+        - { Bearer: [] }
+      description: Start a new PCI report for the {site_id}. This will include all scripts seen in the last 30 days. 
+      operationId: DevconServicesApiWeb.PciReportController.create
+      parameters:
+        - in: path
+          name: account_id
+          required: true
+          type: string
+        - in: path
+          name: site_id
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+        "403":
+          description: Not Authorized
+        "404":
+          description: Not Found
+      summary: Start a new PCI report for the {site_id}. This will include all scripts seen in the last 30 days. 
+      tags:
+        - PCI Reports
+  /api/v2/accounts/{account_id}/sites/{site_id}/pci_reports/{report_id}:
+    get:
+      security:
+        - { Bearer: [] }
+      description: Get PCI Report details for {report_id} 
+      operationId: DevconServicesApiWeb.PciReportController.show
+      parameters:
+        - in: path
+          name: account_id
+          required: true
+          type: string
+        - in: path
+          name: site_id
+          required: true
+          type: string
+        - in: path
+          name: report_id
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+        "403":
+          description: Not Authorized
+        "404":
+          description: Not Found
+      summary: Get PCI Report details for {report_id} 
+      tags:
+        - PCI Reports
+  /api/v2/accounts/{account_id}/sites/{site_id}/pci_reports/{report_id}/complete:
+    post:
+      security:
+        - { Bearer: [] }
+      description: Complete the PCI Report. This will save and archive all attestations.
+      operationId: DevconServicesApiWeb.PciReportController.complete
+      parameters:
+        - in: path
+          name: account_id
+          required: true
+          type: string
+        - in: path
+          name: site_id
+          required: true
+          type: string
+        - in: path
+          name: report_id
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: "Attestation that the report is complete. Can include a signature of the authorizer (optional). Signature should be a base64 encoded image like : `data:image/png;base64,XXXXXXXX`"
+          required: true
+          schema:
+            type: object
+            properties:
+              pci_report:
+                type: object
+                properties:
+                  signature:
+                    type: string
+                  full_name:
+                    type: string
+
+      responses:
+        "200":
+          description: Success
+        "403":
+          description: Not Authorized
+        "404":
+          description: Not Found
+      summary: Complete the PCI Report. This will save and archive all attestations.
+      tags:
+        - PCI Reports
+  /api/v2/accounts/{account_id}/sites/{site_id}/pci_reports/{report_id}/script_attestations:
+    get:
+      security:
+        - { Bearer: [] }
+      description: Get all PCI Attestations for the scripts in the {report_id}. 
+      operationId: DevconServicesApiWeb.ScriptAttestationController.index
+      parameters:
+        - in: path
+          name: account_id
+          required: true
+          type: string
+        - in: path
+          name: site_id
+          required: true
+          type: string
+        - in: path
+          name: report_id
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+        "403":
+          description: Not Authorized
+        "404":
+          description: Not Found
+      summary: Get all PCI Attestations for the scripts in the {report_id}. 
+      tags:
+        - PCI Reports
+    post:
+      security:
+        - { Bearer: [] }
+      description: Add a script attestation for to the PCI Report. 
+      operationId: DevconServicesApiWeb.PciReportController.create
+      parameters:
+        - in: path
+          name: account_id
+          required: true
+          type: string
+        - in: path
+          name: site_id
+          required: true
+          type: string
+        - in: path
+          name: report_id
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: "Attestation why this script is nessessary. The approved state will add the current authenticated user as the approver.  "
+          required: true
+          schema:
+            type: object
+            properties:
+              attestation:
+                type: object
+                properties:
+                  justification:
+                    type: string
+                  approved:
+                    type: boolean
+                  network_request_id:
+                    type: string
+
+      responses:
+        "200":
+          description: Success
+        "403":
+          description: Not Authorized
+        "404":
+          description: Not Found
+      summary: Add a script attestation for to the PCI Report. 
+      tags:
+        - PCI Reports
+  /api/v2/accounts/{account_id}/sites/{site_id}/pci_reports/{report_id}/script_attestations/{attestation_id}:
+    patch:
+      security:
+        - { Bearer: [] }
+      description: Update the script attestation. 
+      operationId: DevconServicesApiWeb.ScriptAttestationController.update
+      parameters:
+        - in: path
+          name: account_id
+          required: true
+          type: string
+        - in: path
+          name: site_id
+          required: true
+          type: string
+        - in: path
+          name: report_id
+          required: true
+          type: string
+        - in: path
+          name: attestation_id
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: "Attestation why this script is nessessary. The approved state will add the current authenticated user as the approver.  "
+          required: true
+          schema:
+            type: object
+            properties:
+              attestation:
+                type: object
+                properties:
+                  justification:
+                    type: string
+                  approved:
+                    type: boolean
+                  network_request_id:
+                    type: string
+      responses:
+        "200":
+          description: Success
+        "403":
+          description: Not Authorized
+        "404":
+          description: Not Found
+      summary: Update the script attestation. 
+      tags:
+        - PCI Reports
+    delete:
+      security:
+        - { Bearer: [] }
+      description: Delete this script attestation. 
+      operationId: DevconServicesApiWeb.ScriptAttestationController.delete
+      parameters:
+        - in: path
+          name: account_id
+          required: true
+          type: string
+        - in: path
+          name: site_id
+          required: true
+          type: string
+        - in: path
+          name: report_id
+          required: true
+          type: string
+        - in: path
+          name: attestation_id
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+        "403":
+          description: Not Authorized
+        "404":
+          description: Not Found
+      summary: Delete this script attestation. 
+      tags:
+        - PCI Reports
 produces:
   - application/json
 host: api.otto-js.com
